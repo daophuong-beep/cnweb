@@ -1,47 +1,54 @@
 
 function myfunct() {
     var x = document.getElementById("right");
-    if (x.checked) {
+    var y = document.getElementById("right2")
+    if (x.checked || y.checked ) {
         alert('chinh xac');
     } else {
         alert('sai')
     }
 }
-var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
+var currentTab = 0; 
+showTab(currentTab); 
 
 function showTab(n) {
-  // This function will display the specified tab of the form...
+  
   var x = document.getElementsByClassName("tab");
   x[n].style.display = "block";
-  //... and fix the Previous/Next buttons:
+  
 
   if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
+    document.getElementById("nextBtn").innerHTML = "finish";
   } else {
     document.getElementById("nextBtn").innerHTML = "Next";
   }
-  //... and run a function that will display the correct step indicator:
+  
   
 }
 
-function nextPrev(n) {
-  // This function will figure out which tab to display
-  var x = document.getElementsByClassName("tab");
-  // Exit the function if any field in the current tab is invalid:
-  if (n < 1 ) return false;
-  // Hide the current tab:
-  x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
-  currentTab = currentTab + n;
-  // if you have reached the end of the form...
-  if (currentTab >= x.length) {
-    // ... the form gets submitted:
-    document.getElementById("regForm").submit();
+function nextPrev(n) {  
+  var x = document.getElementsByClassName("tab"); 
+  if (n < 1 ) return false;  
+  x[currentTab].style.display = "none"; 
+  currentTab = currentTab + n; 
+  if (currentTab >= x.length) {    
+    document.getElementById("lesson").finish();
     return false;
   }
-  // Otherwise, display the correct tab:
   showTab(currentTab);
 }
 
- 
+ //get profile
+async function getProfile() {x
+  const response = await fetch(url + "user/profile/" + sessionStorage.getItem("username"), {
+    method: "GET",
+    withCredentials: true,
+    headers: {
+      token: sessionStorage.getItem('token'),
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  return data["data"];
+}
